@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Click the Circle Game</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f0f0f0;
+    }
+
+    h1 {
+      margin-top: 20px;
+      color: #333;
+    }
+
+    #gameArea {
+      width: 100%;
+      height: 80vh;
+      position: relative;
+      background-color: #ffffff;
+      border: 2px solid #333;
+      margin: 20px auto;
+      overflow: hidden;
+    }
+
+    .circle {
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      border-radius: 50%;
+      position: absolute;
+      cursor: pointer;
+    }
+
+    #score {
+      font-size: 24px;
+      margin-top: 10px;
+      color: #444;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎯 Click the Circle Game</h1>
+  <div id="score">Score: 0</div>
+  <button onclick="startGame()">Start Game</button>
+  <div id="gameArea"></div>
+
+  <script>
+    let score = 0;
+    let circle;
+    let gameArea = document.getElementById("gameArea");
+
+    function getRandomPosition() {
+      const x = Math.floor(Math.random() * (gameArea.clientWidth - 50));
+      const y = Math.floor(Math.random() * (gameArea.clientHeight - 50));
+      return { x, y };
+    }
+
+    function moveCircle() {
+      const { x, y } = getRandomPosition();
+      circle.style.left = `${x}px`;
+      circle.style.top = `${y}px`;
+    }
+
+    function startGame() {
+      score = 0;
+      document.getElementById("score").innerText = `Score: ${score}`;
+      gameArea.innerHTML = ""; // Clear previous game
+
+      circle = document.createElement("div");
+      circle.classList.add("circle");
+      gameArea.appendChild(circle);
+
+      circle.addEventListener("click", () => {
+        score++;
+        document.getElementById("score").innerText = `Score: ${score}`;
+        moveCircle();
+      });
+
+      moveCircle();
+
+      // Auto move every 2 seconds
+      setInterval(moveCircle, 2000);
+    }
+  </script>
+</body>
+</html>
